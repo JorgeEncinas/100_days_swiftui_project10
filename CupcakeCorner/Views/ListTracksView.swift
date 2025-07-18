@@ -38,7 +38,7 @@ struct ListTracksView : View {
         
     }
     
-    var body : some View {
+    var body : some View {            
         List(results, id: \.trackId) { item in
             VStack(alignment: .leading) {
                 Text(item.trackName)

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ListTracksView()
+        //ListTracksView()
+        AsyncImgView3()
     }
 }
 
