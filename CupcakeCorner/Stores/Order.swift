@@ -20,6 +20,18 @@ class Order {
         return true
     }
     
+    var cost : Decimal {
+        var baseCost : Decimal = Decimal(quantity) * 2
+        baseCost += Decimal(type) / 2 //Complicated cakes cost more.
+        if extraFrosting {
+            baseCost += 1
+        }
+        if addSprinkles {
+            baseCost += 0.5
+        }
+        return baseCost
+    }
+    
     static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
     
     var type = 0
