@@ -25,8 +25,38 @@ class Order : Codable {
     var city = ""
     var zip = ""
     
+    static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
+    
+    var type = 0
+    var quantity = 3
+    
+    var specialRequestEnabled = false {
+        didSet {
+            if specialRequestEnabled == false {
+                extraFrosting = false
+                addSprinkles = false
+            }
+        }
+    }
+    var extraFrosting = false
+    var addSprinkles = false
+    
+    init() {
+        self.name = UserDefaults.standard.string(forKey: "userRealName") ?? ""
+        self.streetAddress = UserDefaults.standard.string(forKey: "userStreetAddress") ?? ""
+        self.city = UserDefaults.standard.string(forKey: "userCity") ?? ""
+        self.zip = UserDefaults.standard.string(forKey: "userZip") ?? ""
+    }
+    
+    func isInvalidField(_ field : String) -> Bool {
+        if (field.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+            return true
+        }
+        return false
+    }
+    
     var hasValidAddress : Bool {
-        if (name.isEmpty || streetAddress.isEmpty || city.isEmpty || zip.isEmpty ) {
+        if (isInvalidField(name) || isInvalidField(streetAddress) || isInvalidField(city) || isInvalidField(zip)) {
             return false
         }
         return true
@@ -44,19 +74,10 @@ class Order : Codable {
         return baseCost
     }
     
-    static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
-    
-    var type = 0
-    var quantity = 3
-    
-    var specialRequestEnabled = false {
-        didSet {
-            if specialRequestEnabled == false {
-                extraFrosting = false
-                addSprinkles = false
-            }
-        }
+    func saveUserInfoLocally() {
+        UserDefaults.standard.set(self.streetAddress, forKey: "userStreetAddress")
+        UserDefaults.standard.set(self.name, forKey: "userRealName")
+        UserDefaults.standard.set(self.city, forKey: "userCity")
+        UserDefaults.standard.set(self.zip, forKey: "userZip")
     }
-    var extraFrosting = false
-    var addSprinkles = false
 }
